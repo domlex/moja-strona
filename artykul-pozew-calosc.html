@@ -1,0 +1,535 @@
+<article class="fx-art">
+<style>
+:root{
+  --ink:#1a140d; --ink2:#3c3124; --paper:#fbf7ef; --paper2:#f5ecdd;
+  --gold:#9a6f2e; --gold2:#b8893b; --gold3:#c9a260; --goldbg:#fdf6e6;
+  --line:#e6dcc8; --green:#1f8a4c; --red:#a8401f; --soft:#fffdf8;
+}
+.fx-art{font-family:Georgia,'Times New Roman',serif;color:var(--ink);
+  line-height:1.72;max-width:820px;margin:0 auto;font-size:18px;
+  -webkit-font-smoothing:antialiased}
+.fx-art *{box-sizing:border-box}
+
+/* Nagłówek artykułu */
+.fx-head{text-align:center;padding:6px 0 26px;border-bottom:3px double var(--gold2);
+  margin-bottom:34px}
+.fx-art h1{font-size:36px;line-height:1.18;font-weight:700;letter-spacing:-.015em;
+  margin:0 0 14px}
+.fx-byline{font-family:'Helvetica Neue',Arial,sans-serif;font-size:13.5px;
+  color:var(--ink2);letter-spacing:.02em}
+.fx-byline b{color:var(--gold)}
+
+/* Lead w ramce */
+.fx-lead{position:relative;background:linear-gradient(180deg,var(--goldbg),var(--soft));
+  border:1px solid var(--line);border-left:4px solid var(--gold2);border-radius:6px;
+  padding:22px 26px 22px 30px;margin:0 0 30px;font-size:18.5px}
+.fx-lead::before{content:"§";position:absolute;top:-14px;left:18px;background:var(--gold2);
+  color:#fff;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  font-family:Georgia,serif;font-size:18px;box-shadow:0 4px 12px rgba(154,111,46,.4)}
+.fx-lead b{color:var(--ink)}
+
+/* Sekcje nagłówków z ikoną */
+.fx-art h2{font-size:26px;font-weight:700;margin:46px 0 16px;letter-spacing:-.01em;
+  display:flex;align-items:center;gap:12px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+.fx-art h2 .ico{width:34px;height:34px;flex:none;display:grid;place-items:center;
+  background:var(--goldbg);border:1px solid var(--gold3);border-radius:8px;padding:6px}
+.fx-art h2 .ico svg{width:100%;height:100%}
+.fx-art h3{font-size:20px;font-weight:700;margin:26px 0 8px;color:var(--gold)}
+.fx-art p{margin:0 0 16px}
+.fx-art a{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
+.fx-art a:hover{color:var(--ink)}
+
+/* Ramka "Najważniejsze fakty" */
+.fx-facts{background:var(--ink);color:#f3ead6;border-radius:10px;padding:26px 30px;
+  margin:28px 0;box-shadow:0 18px 44px -24px rgba(26,20,13,.6)}
+.fx-facts h3{font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--gold3);margin:0 0 16px;
+  font-weight:700;display:flex;align-items:center;gap:9px}
+.fx-facts h3 svg{width:18px;height:18px}
+.fx-facts ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.fx-facts li{display:flex;gap:13px;font-size:16.5px;line-height:1.5;align-items:flex-start}
+.fx-facts li svg{width:20px;height:20px;flex:none;margin-top:2px}
+.fx-facts li b{color:#fff}
+
+/* Spis treści */
+.fx-toc{background:var(--soft);border:1px solid var(--line);border-radius:8px;
+  padding:22px 28px;margin:30px 0}
+.fx-toc strong{font-family:'Helvetica Neue',Arial,sans-serif;font-size:12.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:flex;
+  align-items:center;gap:8px;margin-bottom:14px}
+.fx-toc strong svg{width:16px;height:16px}
+.fx-toc ol{margin:0;padding-left:24px;columns:2;column-gap:36px}
+.fx-toc li{margin-bottom:9px;font-size:16px;break-inside:avoid}
+@media(max-width:560px){.fx-toc ol{columns:1}}
+
+/* Listy ozdobne */
+.fx-art ul.fx-check{list-style:none;padding-left:0;margin:0 0 18px;display:grid;gap:10px}
+.fx-art ul.fx-check li{display:flex;gap:11px;align-items:flex-start}
+.fx-art ul.fx-check li svg{width:19px;height:19px;flex:none;margin-top:4px;color:var(--gold2)}
+.fx-art ol.fx-steps{counter-reset:step;list-style:none;padding-left:0;margin:0 0 18px}
+.fx-art ol.fx-steps li{counter-increment:step;position:relative;padding-left:50px;
+  margin-bottom:16px;min-height:34px}
+.fx-art ol.fx-steps li::before{content:counter(step);position:absolute;left:0;top:0;
+  width:34px;height:34px;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#fff;border-radius:50%;display:grid;place-items:center;font-family:'Helvetica Neue',Arial,sans-serif;
+  font-weight:700;font-size:16px;box-shadow:0 4px 10px rgba(154,111,46,.35)}
+
+/* Tabela */
+.fx-tablewrap{margin:24px 0;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.fx-art table{width:100%;border-collapse:collapse;font-size:16px}
+.fx-art th{background:var(--ink);color:#f3ead6;text-align:left;padding:13px 18px;
+  font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;letter-spacing:.05em;
+  text-transform:uppercase;font-weight:700}
+.fx-art td{padding:12px 18px;border-top:1px solid var(--line)}
+.fx-art tr:nth-child(even) td{background:var(--paper2)}
+.fx-art td:first-child{font-weight:700;color:var(--ink2)}
+
+/* Box informacyjny / ostrzeżenie / wskazówka */
+.fx-note{display:flex;gap:14px;border-radius:8px;padding:18px 22px;margin:24px 0;
+  border:1px solid var(--line)}
+.fx-note svg{width:26px;height:26px;flex:none;margin-top:1px}
+.fx-note .b{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;
+  font-size:13px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:5px}
+.fx-note.tip{background:var(--goldbg);border-color:var(--gold3)}
+.fx-note.tip .b{color:var(--gold)}
+.fx-note.warn{background:#fcf0ea;border-color:#e6b9a6}
+.fx-note.warn .b{color:var(--red)}
+.fx-note.info{background:#eef5f0;border-color:#bcdcc8}
+.fx-note.info .b{color:var(--green)}
+.fx-note p{margin:0}
+
+/* === WZÓR POZWU — dokument === */
+.fx-docwrap{margin:30px 0}
+.fx-doclabel{display:flex;align-items:center;gap:10px;background:var(--ink);
+  color:#f3ead6;padding:13px 22px;border-radius:8px 8px 0 0;font-family:'Helvetica Neue',Arial,sans-serif;
+  font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+.fx-doclabel svg{width:20px;height:20px}
+.fx-doc{background:#fff;border:1px solid var(--line);border-top:none;
+  border-radius:0 0 8px 8px;box-shadow:0 18px 44px -26px rgba(26,20,13,.45);
+  padding:38px 44px;font-family:'Times New Roman',Georgia,serif;font-size:15.5px;line-height:1.8}
+@media(max-width:560px){.fx-doc{padding:26px 22px}}
+.fx-doc .place{text-align:right;color:var(--ink2)}
+.fx-doc .court{margin:20px 0 4px}
+.fx-doc .center{text-align:center;font-weight:700;margin:26px 0 4px;font-size:18px;letter-spacing:.03em}
+.fx-doc .centersub{text-align:center;font-weight:700;margin:0 0 24px;color:var(--gold)}
+.fx-doc .lab{font-family:'Helvetica Neue',Arial,sans-serif;font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--gold);display:block;
+  margin-bottom:1px;font-weight:700}
+.fx-doc .party{margin:12px 0}
+.fx-doc ol{padding-left:24px;margin:8px 0}
+.fx-doc ol li{margin-bottom:9px}
+.fx-doc .sec{font-weight:700;margin:24px 0 8px;text-transform:uppercase;
+  font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;letter-spacing:.06em;text-align:center}
+.fx-doc .sign{margin-top:28px;text-align:right}
+.fx-doc .small{font-size:13px;color:var(--ink2);font-style:italic}
+.fx-fill{background:var(--goldbg);padding:1px 6px;border-bottom:1px solid var(--gold2);
+  font-style:italic;border-radius:2px}
+.fx-doc .ifx{font-style:italic;color:var(--ink2)}
+
+/* CTA śródartykułowe */
+.fx-cta{position:relative;background:linear-gradient(135deg,var(--ink),#332615);
+  color:#fbf3e2;border-radius:12px;padding:32px 36px;margin:42px 0;
+  box-shadow:0 22px 50px -26px rgba(26,20,13,.7);overflow:hidden}
+.fx-cta::after{content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(184,137,59,.25),transparent 70%)}
+.fx-cta h3{color:#fff;margin:0 0 8px;font-size:23px;position:relative}
+.fx-cta p{color:#dac9ab;margin:0 0 20px;font-size:16px;position:relative;max-width:54ch}
+.fx-cta-row{display:flex;gap:12px;flex-wrap:wrap;position:relative}
+.fx-cta a{display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+  font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;padding:14px 26px;
+  border-radius:4px;font-size:16px}
+.fx-cta a svg{width:20px;height:20px}
+.fx-cta .wa{background:linear-gradient(135deg,#1fa855,#128c42);color:#fff}
+.fx-cta .call{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#fff}
+.fx-cta a:hover{filter:brightness(1.08)}
+
+/* FAQ */
+.fx-faq{margin:18px 0}
+.fx-faq details{border:1px solid var(--line);border-radius:8px;margin-bottom:10px;
+  background:var(--soft);overflow:hidden}
+.fx-faq summary{cursor:pointer;padding:16px 22px;font-weight:700;font-size:17px;
+  list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.fx-faq summary::-webkit-details-marker{display:none}
+.fx-faq summary::after{content:"+";color:var(--gold2);font-size:24px;font-weight:400;
+  transition:transform .2s}
+.fx-faq details[open] summary::after{transform:rotate(45deg)}
+.fx-faq details[open] summary{border-bottom:1px solid var(--line)}
+.fx-faq .ans{padding:14px 22px 18px;color:var(--ink2);font-size:16.5px}
+
+/* Autor */
+.fx-author{display:flex;gap:18px;background:var(--paper2);border:1px solid var(--line);
+  border-radius:10px;padding:22px 26px;margin:38px 0 0;align-items:flex-start}
+.fx-author .av{width:54px;height:54px;flex:none;border-radius:50%;background:var(--ink);
+  color:var(--gold3);display:grid;place-items:center;font-family:Georgia,serif;font-size:22px;
+  border:2px solid var(--gold2)}
+.fx-author p{margin:0;font-size:15.5px;color:var(--ink2)}
+.fx-author b{color:var(--ink)}
+.fx-disclaimer{font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;color:var(--ink2);
+  font-style:italic;border-top:1px solid var(--line);margin-top:24px;padding-top:16px}
+
+/* Grafiki wbudowane w treść */
+.fx-figure{margin:30px 0;text-align:center}
+.fx-figure img{max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line);
+  box-shadow:0 16px 40px -22px rgba(26,20,13,.5)}
+.fx-figure.fx-portrait img{max-width:440px}
+.fx-figure figcaption{font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;
+  color:var(--ink2);font-style:italic;margin-top:10px}
+</style>
+
+<header class="fx-head">
+  <h1>Pozew o rozwód bez orzekania o winie — poradnik i gotowy wzór 2026</h1>
+  <p class="fx-byline">adw. <b>Dominik Andrzej Marchewka</b> · Kancelaria Factolex, Kraków · Aktualizacja: 8 czerwca 2026 · czas czytania: ok. 10 min</p>
+</header>
+
+<!-- ░░░ GRAFIKA 1 (POZIOMA) — podmień adres w src na URL z biblioteki mediów ░░░ -->
+<figure class="fx-figure">
+  <img src="WKLEJ_TUTAJ_ADRES_GRAFIKI_POZIOMEJ"
+       alt="Pozew o rozwód bez orzekania o winie — wzór, Kancelaria Factolex Kraków">
+</figure>
+
+<div class="fx-lead">
+  <p><b>Rozwód bez orzekania o winie to najszybsza i najtańsza droga do zakończenia małżeństwa
+  — sąd rozwiązuje związek bez ustalania, kto zawinił, jeśli oboje małżonkowie zgodnie tego
+  zażądają.</b> Poniżej znajdziesz komplet informacji o tym, jak złożyć taki pozew, ile kosztuje,
+  do którego sądu trafia, oraz gotowy wzór z omówieniem każdego elementu.</p>
+</div>
+
+<div class="fx-facts">
+  <h3>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#c9a260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21l2.3-7.4-6-4.6h7.6z"/></svg>
+    Najważniejsze fakty
+  </h3>
+  <ul>
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="#c9a260" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Tylko za zgodą obojga</b> — sąd zaniecha orzekania o winie, gdy żądają tego oboje małżonkowie (art. 57 § 2 k.r.o.).</span></li>
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="#c9a260" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Opłata sądowa: 600 zł</b>, a po zakończeniu sprawy sąd zwraca <b>połowę (300 zł)</b>.</span></li>
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="#c9a260" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Sąd okręgowy</b> właściwy według ostatniego wspólnego miejsca zamieszkania (art. 41 k.p.c.).</span></li>
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="#c9a260" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Czas:</b> najczęściej jedna rozprawa, sprawa trwa zwykle 3–6 miesięcy.</span></li>
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="#c9a260" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Alimenty na dziecko</b> zawarte w pozwie nie wymagają dodatkowej opłaty.</span></li>
+  </ul>
+</div>
+
+<nav class="fx-toc" aria-label="Spis treści">
+  <strong>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#9a6f2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+    Spis treści
+  </strong>
+  <ol>
+    <li><a href="#czym">Czym jest rozwód bez winy</a></li>
+    <li><a href="#przeslanki">Co bada sąd</a></li>
+    <li><a href="#sad">Właściwy sąd</a></li>
+    <li><a href="#elementy">Elementy pozwu</a></li>
+    <li><a href="#wzor">Gotowy wzór pozwu</a></li>
+    <li><a href="#oplaty">Opłaty i zwrot</a></li>
+    <li><a href="#zalaczniki">Załączniki</a></li>
+    <li><a href="#bledy">Najczęstsze błędy</a></li>
+    <li><a href="#faq">Pytania i odpowiedzi</a></li>
+  </ol>
+</nav>
+
+<h2 id="czym">
+  <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#9a6f2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 7h10M5 7l-2.5 6h5L5 7zm14 0l-2.5 6h5L19 7zM8 21h8"/></svg></span>
+  Czym jest rozwód bez orzekania o winie
+</h2>
+
+<p>Rozwód bez orzekania o winie oznacza, że sąd rozwiązuje małżeństwo, <strong>nie ustalając,
+które z małżonków ponosi winę</strong> za rozkład pożycia. Zgodnie z art. 57 § 2 Kodeksu
+rodzinnego i opiekuńczego jest to możliwe <strong>tylko wtedy, gdy oboje małżonkowie zgodnie
+o to wnoszą</strong>. Wystarczy sprzeciw jednej ze stron, by sąd musiał prowadzić postępowanie
+dowodowe co do winy — a to oznacza więcej rozpraw, świadków i kosztów.</p>
+
+<p>To rozwiązanie wybierają najczęściej małżonkowie, którym zależy na szybkim i kulturalnym
+zakończeniu sprawy. Pełne porównanie obu wariantów znajdziesz w naszym poradniku:
+<a href="https://www.factolex.pl/adwokat-rozwodowy-krakow/"><!-- LINK WEWN -->rozwód z winą czy bez — co wybrać</a>.</p>
+
+<div class="fx-note info">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#1f8a4c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+  <div><span class="b">Skutek prawny</span><p>Wyrok bez orzekania o winie wywołuje takie same skutki jak każdy inny rozwód (ustanie małżeństwa, możliwość powrotu do nazwiska, ustanie wspólności majątkowej). Różnica dotyczy wyłącznie kwestii winy oraz alimentów między byłymi małżonkami.</p></div>
+</div>
+
+<h2 id="przeslanki">
+  <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#9a6f2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+  Co musi ustalić sąd — przesłanki rozwodu
+</h2>
+
+<p>Niezależnie od kwestii winy sąd zawsze bada, czy nastąpił <strong>zupełny i trwały rozkład
+pożycia</strong> (art. 56 § 1 k.r.o.) — czyli ustanie trzech więzi małżeńskich:</p>
+
+<ul class="fx-check">
+  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><strong>więzi uczuciowej</strong> — wygaśnięcie miłości i wzajemnego przywiązania;</span></li>
+  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><strong>więzi fizycznej</strong> — ustanie współżycia;</span></li>
+  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><strong>więzi gospodarczej</strong> — brak wspólnego prowadzenia gospodarstwa domowego.</span></li>
+</ul>
+
+<p>Sąd zbada też tzw. <strong>negatywne przesłanki rozwodu</strong>: czy wskutek rozwodu nie
+ucierpi dobro wspólnych małoletnich dzieci oraz czy rozwód nie jest sprzeczny z zasadami
+współżycia społecznego. W typowej, zgodnej sprawie nie stanowią one przeszkody.</p>
+
+<h2 id="sad">
+  <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#9a6f2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10M19 21V10M4 10h16L12 4 4 10zM9 21v-6h6v6"/></svg></span>
+  Do którego sądu złożyć pozew
+</h2>
+
+<p>Pozew składa się do <strong>sądu okręgowego</strong> (nie rejonowego!) — wynika to z art. 17
+pkt 1 k.p.c. Który konkretnie sąd okręgowy jest właściwy, rozstrzyga art. 41 k.p.c.:</p>
+
+<ol class="fx-steps">
+  <li><strong>Ostatnie wspólne miejsce zamieszkania</strong> — sąd okręgowy, w którego okręgu małżonkowie mieszkali wspólnie, jeżeli choć jedno z nich nadal tam mieszka lub zwykle przebywa.</li>
+  <li><strong>Miejsce zamieszkania pozwanego</strong> — gdy żadne z małżonków już tam nie mieszka.</li>
+  <li><strong>Miejsce zamieszkania powoda</strong> — gdy i poprzedniej podstawy ustalić się nie da.</li>
+</ol>
+
+<div class="fx-note tip">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#9a6f2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.2 1 2H15c0-.8.4-1.5 1-2A7 7 0 0012 2z"/></svg>
+  <div><span class="b">Wskazówka praktyczna</span><p>O właściwości decyduje <strong>faktyczne miejsce zamieszkania, a nie meldunek</strong>. Jeśli ostatnio mieszkaliście wspólnie w Krakowie i mieszka tam nadal choćby jedno z Was — właściwy będzie Sąd Okręgowy w Krakowie, nawet jeśli druga osoba wyprowadziła się do innego miasta.</p></div>
+</div>
+
+<h2 id="elementy">
+  <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#9a6f2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg></span>
+  Niezbędne elementy pozwu — krok po kroku
+</h2>
+
+<p>Pozew o rozwód musi spełniać wymogi pisma procesowego z art. 126 i 187 k.p.c. Oto elementy,
+które <strong>muszą</strong> się w nim znaleźć:</p>
+
+<h3>a) Miejscowość, data i oznaczenie sądu</h3>
+<p>W prawym górnym rogu — miejscowość i data. Po lewej — pełna nazwa i wydział sądu (np. „Sąd
+Okręgowy w Krakowie, XI Wydział Cywilny-Rodzinny").</p>
+
+<h3>b) Oznaczenie stron</h3>
+<p>Dane powoda i pozwanego: imię, nazwisko, adres oraz <strong>obowiązkowo numer PESEL
+powoda</strong> (art. 126 § 2 pkt 2 k.p.c.). PESEL pozwanego nie jest wymagany.</p>
+
+<h3>c) Tytuł i żądania (petitum)</h3>
+<p>Tytuł: „Pozew o rozwód bez orzekania o winie". W żądaniach precyzyjnie wskazujesz, o co
+wnosisz — rozwiązanie małżeństwa bez orzekania o winie, a w razie potrzeby uregulowanie władzy
+rodzicielskiej, kontaktów i alimentów na dzieci.</p>
+
+<h3>d) Uzasadnienie i podpis</h3>
+<p>Opisujesz datę zawarcia małżeństwa, moment i okoliczności rozkładu pożycia oraz wykazujesz
+jego zupełność i trwałość. Na końcu — własnoręczny podpis i lista załączników.</p>
+
+<h2 id="wzor">
+  <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#9a6f2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg></span>
+  Gotowy wzór pozwu o rozwód bez orzekania o winie
+</h2>
+
+<!-- ░░░ GRAFIKA 2 (PIONOWA) — podmień adres w src na URL z biblioteki mediów ░░░ -->
+<figure class="fx-figure fx-portrait">
+  <img src="WKLEJ_TUTAJ_ADRES_GRAFIKI_PIONOWEJ"
+       alt="Wzór pozwu o rozwód bez orzekania o winie 2026 — Kancelaria Factolex">
+  <figcaption>Gotowy wzór pozwu — pełną wersję w pliku Word pobierzesz poniżej.</figcaption>
+</figure>
+
+<p>Pola do uzupełnienia oznaczono <span class="fx-fill">kursywą na żółtym tle</span>. Edytowalną
+wersję w pliku Word (.docx) udostępniamy do pobrania pod artykułem.</p>
+
+<div class="fx-docwrap">
+  <div class="fx-doclabel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#c9a260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+    Wzór pisma procesowego
+  </div>
+  <div class="fx-doc">
+    <p class="place"><span class="fx-fill">miejscowość</span>, dnia <span class="fx-fill">DD.MM.RRRR</span> r.</p>
+
+    <p class="court"><strong>Sąd Okręgowy w <span class="fx-fill">………………</span></strong><br>
+    <span class="fx-fill">…</span> Wydział Cywilny / Cywilny-Rodzinny</p>
+
+    <div class="party"><span class="lab">Powód / Powódka</span>
+      <span class="fx-fill">imię i nazwisko</span>, PESEL <span class="fx-fill">…</span>, zam. <span class="fx-fill">adres</span></div>
+
+    <div class="party"><span class="lab">Pozwany / Pozwana</span>
+      <span class="fx-fill">imię i nazwisko</span>, zam. <span class="fx-fill">adres</span></div>
+
+    <p class="center">POZEW O ROZWÓD</p>
+    <p class="centersub">bez orzekania o winie</p>
+
+    <p>Działając w imieniu własnym, wnoszę o:</p>
+    <ol>
+      <li>rozwiązanie przez rozwód małżeństwa powoda/powódki <span class="fx-fill">imię i nazwisko</span>
+      z pozwanym/pozwaną <span class="fx-fill">imię i nazwisko</span>, zawartego w dniu
+      <span class="fx-fill">data</span> w <span class="fx-fill">miejscowość</span> (akt małżeństwa
+      nr <span class="fx-fill">…</span>), <strong>bez orzekania o winie</strong> stron;</li>
+      <li><span class="ifx">(jeżeli są małoletnie dzieci)</span> powierzenie wykonywania władzy
+      rodzicielskiej nad małoletnim/małoletnią <span class="fx-fill">imię, data ur.</span> obojgu
+      rodzicom / powodowi / pozwanej, z ustaleniem miejsca zamieszkania dziecka przy
+      <span class="fx-fill">…</span>;</li>
+      <li><span class="ifx">(jeżeli są małoletnie dzieci)</span> zasądzenie od <span class="fx-fill">…</span>
+      tytułem alimentów na rzecz małoletniego/małoletniej kwoty <span class="fx-fill">…</span> zł
+      miesięcznie, płatnej do dnia <span class="fx-fill">…</span> każdego miesiąca, z ustawowymi
+      odsetkami za opóźnienie;</li>
+      <li>uregulowanie kontaktów pozwanego/pozwanej z dzieckiem w sposób <span class="fx-fill">…</span>
+      <span class="ifx">(lub: pozostawienie kontaktów do swobodnego ustalenia przez rodziców)</span>;</li>
+      <li>zniesienie kosztów postępowania między stronami;</li>
+      <li>rozpoznanie sprawy również pod nieobecność powoda/powódki.</li>
+    </ol>
+
+    <p class="sec">Uzasadnienie</p>
+    <p>Strony zawarły związek małżeński w dniu <span class="fx-fill">…</span> w <span class="fx-fill">…</span>
+    Z małżeństwa <span class="fx-fill">pochodzi / nie pochodzi</span> małoletnie dziecko:
+    <span class="fx-fill">…</span></p>
+    <p class="small">Dowód: odpis skrócony aktu małżeństwa; (jeżeli są dzieci) odpis skrócony aktu urodzenia dziecka.</p>
+    <p>Pomiędzy małżonkami doszło do zupełnego i trwałego rozkładu pożycia. Od <span class="fx-fill">…</span>
+    ustała więź uczuciowa, fizyczna i gospodarcza między stronami. <span class="fx-fill">krótki opis
+    okoliczności rozkładu pożycia</span> Strony nie prowadzą wspólnego gospodarstwa domowego i nie
+    widzą możliwości powrotu do wspólnego pożycia.</p>
+    <p>Oboje małżonkowie zgodnie wnoszą o rozwiązanie małżeństwa bez orzekania o winie. Rozwód nie
+    jest sprzeczny z dobrem wspólnych małoletnich dzieci ani z zasadami współżycia społecznego.</p>
+    <p>Wobec powyższego wniesienie pozwu jest konieczne i uzasadnione.</p>
+
+    <p class="sign">…………………………………<br><span class="small">(własnoręczny podpis powoda/powódki)</span></p>
+
+    <p class="sec" style="text-align:left;margin-top:26px">Załączniki:</p>
+    <ol>
+      <li>odpis pozwu wraz z załącznikami dla strony pozwanej;</li>
+      <li>odpis skrócony aktu małżeństwa;</li>
+      <li>odpisy skrócone aktów urodzenia małoletnich dzieci <span class="ifx">(jeżeli dotyczy)</span>;</li>
+      <li>dowód uiszczenia opłaty sądowej w kwocie 600 zł;</li>
+      <li><span class="ifx">(opcjonalnie)</span> zaświadczenie o zarobkach / inne dowody.</li>
+    </ol>
+  </div>
+</div>
+
+<h2 id="oplaty">
+  <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#9a6f2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h4a1.5 1.5 0 010 3h-3a1.5 1.5 0 000 3h4"/></svg></span>
+  Opłaty sądowe i zwrot połowy
+</h2>
+
+<p>Opłata od pozwu o rozwód jest <strong>stała i wynosi 600 zł</strong>, niezależnie od majątku
+małżonków (art. 26 ust. 1 pkt 1 ustawy o kosztach sądowych w sprawach cywilnych). Uiszcza się
+ją na rachunek właściwego sądu okręgowego, a dowód wpłaty dołącza do pozwu.</p>
+
+<div class="fx-note tip">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#9a6f2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+  <div><span class="b">Realna oszczędność</span><p>Jeśli sąd orzeknie rozwód <strong>bez orzekania o winie na zgodny wniosek stron</strong>, po uprawomocnieniu wyroku zwraca z urzędu <strong>połowę opłaty, czyli 300 zł</strong> (art. 79 ust. 1 pkt 3 lit. b u.k.s.c.). Realny koszt opłaty spada więc do 300 zł.</p></div>
+</div>
+
+<p>Co istotne, <strong>wniosek o alimenty na rzecz małoletniego dziecka zawarty w pozwie
+rozwodowym nie podlega odrębnej opłacie</strong>. Przy trudnej sytuacji finansowej możesz złożyć
+wniosek o zwolnienie od kosztów sądowych. Więcej w artykule
+<a href="https://www.factolex.pl/alimenty-krakow/"><!-- LINK WEWN -->alimenty — jak ustalić wysokość</a>.</p>
+
+<h2 id="zalaczniki">
+  <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#9a6f2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.05l-9.2 9.2a5 5 0 01-7.1-7.1l9.2-9.2a3.3 3.3 0 014.7 4.7l-9.2 9.2a1.7 1.7 0 01-2.4-2.4l8.5-8.5"/></svg></span>
+  Załączniki do pozwu
+</h2>
+
+<ul class="fx-check">
+  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><strong>odpis pozwu dla strony pozwanej</strong> (sąd doręcza go drugiemu małżonkowi);</span></li>
+  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><strong>odpis skrócony aktu małżeństwa</strong> (aktualny);</span></li>
+  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><strong>odpisy skrócone aktów urodzenia</strong> wspólnych małoletnich dzieci;</span></li>
+  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><strong>dowód uiszczenia opłaty 600 zł</strong>;</span></li>
+  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>ewentualnie zaświadczenie o dochodach (przy żądaniu alimentów).</span></li>
+</ul>
+
+<p>Odpisy aktów stanu cywilnego uzyskasz w dowolnym Urzędzie Stanu Cywilnego lub online —
+szczegóły na portalu
+<a href="https://www.gov.pl/web/gov/uzyskaj-odpis-aktu-stanu-cywilnego" target="_blank" rel="noopener nofollow">gov.pl</a>.</p>
+
+<h2 id="bledy">
+  <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#9a6f2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9l-8 13.9A2 2 0 004 21h16a2 2 0 001.7-3.2l-8-13.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></span>
+  Najczęstsze błędy przy samodzielnym pozwie
+</h2>
+
+<div class="fx-note warn">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#a8401f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9l-8 13.9A2 2 0 004 21h16a2 2 0 001.7-3.2l-8-13.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+  <div><span class="b">Uważaj na te pułapki</span>
+  <p>• Złożenie pozwu do <strong>sądu rejonowego</strong> zamiast okręgowego.<br>
+  • Brak <strong>numeru PESEL powoda</strong> — skutkuje wezwaniem do uzupełnienia braków.<br>
+  • <strong>Niejasne żądania dotyczące dzieci</strong> — sąd i tak musi rozstrzygnąć o władzy i alimentach.<br>
+  • Brak <strong>dowodu opłaty</strong> — pozew nie „ruszy" bez potwierdzenia wpłaty 600 zł.</p></div>
+</div>
+
+<p>Warto też pamiętać o istotnym skutku tego wariantu: przy rozwodzie bez orzekania o winie
+obowiązuje <strong>łagodniejszy reżim alimentów między małżonkami</strong> — były małżonek może
+żądać alimentów tylko w razie niedostatku (art. 60 § 1 k.r.o.), a obowiązek ten co do zasady
+wygasa po pięciu latach. To rozsądnie rozważyć przed podjęciem decyzji.</p>
+
+<div class="fx-cta">
+  <h3>Chcesz mieć pewność, że Twój pozew jest bez błędów?</h3>
+  <p>Pierwsza analiza sprawy w Kancelarii Factolex jest bezpłatna i bez zobowiązań. Sprawdzę
+  Twoją sytuację i wskażę najszybszą drogę do rozwodu — Kraków, Olkusz, Katowice lub online.</p>
+  <div class="fx-cta-row">
+    <a class="call" href="tel:+48530834077">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.1-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.7a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.4-1.4a2 2 0 012.1-.4c.9.3 1.8.6 2.7.7a2 2 0 011.7 2z"/></svg>
+      Zadzwoń: +48 530 834 077
+    </a>
+    <a class="wa" href="https://wa.me/48530834077?text=Dzie%C5%84%20dobry%2C%20potrzebuj%C4%99%20pomocy%20w%20sprawie%20rozwodowej." target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.8 5-1.3A10 10 0 1012 2zm0 1.8a8.2 8.2 0 016.9 12.6l-.2.3.8 2.9-3-.8-.3.2A8.2 8.2 0 1112 3.8z"/></svg>
+      Napisz na WhatsApp
+    </a>
+  </div>
+</div>
+
+<h2 id="faq">
+  <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#9a6f2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg></span>
+  Pytania i odpowiedzi
+</h2>
+
+<div class="fx-faq">
+  <details open>
+    <summary>Ile trwa rozwód bez orzekania o winie?</summary>
+    <div class="ans">Najczęściej od 3 do 6 miesięcy od złożenia pozwu — w sprawach zgodnych zwykle wystarcza jedna rozprawa.</div>
+  </details>
+  <details>
+    <summary>Czy muszę chodzić na rozprawy?</summary>
+    <div class="ans">Co do zasady sąd przesłuchuje przynajmniej jedną stronę. Można wnieść o rozpoznanie sprawy pod nieobecność strony, jeśli reprezentuje ją pełnomocnik.</div>
+  </details>
+  <details>
+    <summary>Czy mogę wrócić do nazwiska sprzed małżeństwa?</summary>
+    <div class="ans">Tak. W ciągu 3 miesięcy od uprawomocnienia wyroku składa się oświadczenie przed kierownikiem USC o powrocie do poprzedniego nazwiska.</div>
+  </details>
+  <details>
+    <summary>Czy potrzebuję adwokata?</summary>
+    <div class="ans">Nie ma takiego obowiązku — w sprawie rozwodowej można działać samodzielnie. Adwokat bywa pomocny przy sprawach z dziećmi, majątkiem lub gdy istnieje ryzyko, że druga strona zmieni zdanie co do winy.</div>
+  </details>
+</div>
+
+<div class="fx-author">
+  <div class="av">DM</div>
+  <p><b>adw. Dominik Andrzej Marchewka</b> — adwokat przy Okręgowej Radzie Adwokackiej w Krakowie,
+  mediator sądowy, doktorant prawa. Prowadzi Kancelarię Factolex przy ul. Mariana Słoneckiego 4/24
+  w Krakowie (oraz w Katowicach i Olkuszu). Specjalizuje się w sprawach rozwodowych i rodzinnych.</p>
+</div>
+
+<p class="fx-disclaimer">Artykuł ma charakter informacyjny i nie stanowi porady prawnej. Stan
+prawny może ulec zmianie, a rozstrzygnięcie każdej sprawy zależy od indywidualnych okoliczności.
+W celu oceny konkretnej sprawy skontaktuj się z adwokatem. Stan prawny: czerwiec 2026 r.</p>
+
+</article>
+
+<!-- ===== JSON-LD (Article + Attorney z geo + FAQPage) — najlepiej do <head> ===== -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"Article",
+      "headline":"Pozew o rozwód bez orzekania o winie — poradnik i gotowy wzór 2026",
+      "description":"Jak złożyć pozew o rozwód bez orzekania o winie: przesłanki, właściwy sąd, opłaty (600 zł, zwrot 300 zł), załączniki i gotowy wzór pisma. Stan prawny: czerwiec 2026.",
+      "author":{"@type":"Person","name":"adw. Dominik Andrzej Marchewka"},
+      "publisher":{"@type":"Organization","name":"Kancelaria Adwokacka Factolex","url":"https://www.factolex.pl"},
+      "datePublished":"2026-06-08","dateModified":"2026-06-08","inLanguage":"pl-PL",
+      "about":["rozwód","pozew o rozwód","rozwód bez orzekania o winie","prawo rodzinne"]
+    },
+    {
+      "@type":"Attorney",
+      "name":"Kancelaria Adwokacka Factolex — adw. Dominik Marchewka",
+      "url":"https://www.factolex.pl","telephone":"+48 530 834 077",
+      "email":"marchewkadominik@gmail.com",
+      "areaServed":["Kraków","Olkusz","Katowice","Małopolska"],
+      "address":{"@type":"PostalAddress","streetAddress":"ul. Mariana Słoneckiego 4/24","addressLocality":"Kraków","postalCode":"31-417","addressCountry":"PL"},
+      "geo":{"@type":"GeoCoordinates","latitude":50.0902623,"longitude":19.9758034}
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"Ile trwa rozwód bez orzekania o winie?","acceptedAnswer":{"@type":"Answer","text":"Najczęściej od 3 do 6 miesięcy od złożenia pozwu. W sprawach zgodnych zwykle wystarcza jedna rozprawa."}},
+        {"@type":"Question","name":"Ile kosztuje pozew o rozwód w 2026 roku?","acceptedAnswer":{"@type":"Answer","text":"Opłata stała wynosi 600 zł. Przy rozwodzie bez orzekania o winie na zgodny wniosek stron sąd zwraca po uprawomocnieniu wyroku połowę opłaty, czyli 300 zł."}},
+        {"@type":"Question","name":"Do którego sądu złożyć pozew o rozwód?","acceptedAnswer":{"@type":"Answer","text":"Do sądu okręgowego właściwego według ostatniego wspólnego miejsca zamieszkania małżonków (art. 41 k.p.c.), o ile choć jedno z nich nadal tam mieszka."}},
+        {"@type":"Question","name":"Czy potrzebuję adwokata do rozwodu?","acceptedAnswer":{"@type":"Answer","text":"Nie ma takiego obowiązku. Adwokat bywa pomocny przy sprawach z dziećmi, majątkiem lub gdy istnieje ryzyko zmiany stanowiska drugiej strony co do winy."}}
+      ]
+    }
+  ]
+}
+</script>
