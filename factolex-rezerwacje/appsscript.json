@@ -6,9 +6,5 @@
   "oauthScopes": [
     "https://www.googleapis.com/auth/calendar",
     "https://www.googleapis.com/auth/script.send_mail"
-  ],
-  "webapp": {
-    "executeAs": "USER_DEPLOYING",
-    "access": "ANYONE"
-  }
+  ]
 }
