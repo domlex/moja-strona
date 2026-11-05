@@ -51,13 +51,15 @@ function publicStatus() {
 }
 
 function getAvailability(input) {
+  // Nie ujawniaj nawet informacji o zajętości przed świadomym uruchomieniem rezerwacji.
+  if (!isEnabled_()) return {enabled:false, slots:[]};
   if (!isEnabled_()) return {enabled: false, slots: []};
   const office = validateOffice_(input && input.office);
   const day = parseDay_(input && input.day);
   const today = Utilities.formatDate(new Date(), FACTOLEX.timeZone, 'yyyy-MM-dd');
-  if (day.text < today) return {enabled: isEnabled_(), slots: []};
+  if (day.text < today) return {enabled: true, slots: []};
   const futureLimit = new Date(Date.now() + FACTOLEX.maxDaysAhead * 86400000);
-  if (day.date > futureLimit) return {enabled: isEnabled_(), slots: []};
+  if (day.date > futureLimit) return {enabled: true, slots: []};
 
   const calendar = CalendarApp.getDefaultCalendar();
   if (!calendar) throw new Error('Kalendarz jest niedostępny.');
