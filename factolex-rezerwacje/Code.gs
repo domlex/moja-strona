@@ -51,6 +51,7 @@ function publicStatus() {
 }
 
 function getAvailability(input) {
+  if (!isEnabled_()) return {enabled: false, slots: []};
   const office = validateOffice_(input && input.office);
   const day = parseDay_(input && input.day);
   const today = Utilities.formatDate(new Date(), FACTOLEX.timeZone, 'yyyy-MM-dd');
