@@ -48,17 +48,12 @@
             <select id="office" name="office" required>
               <option value="Kraków">Kraków</option>
               <option value="Olkusz">Olkusz</option>
-              <option value="Telefonicznie">Telefonicznie</option>
-            </select></div>
-          <div class="field"><label for="kind">Kategoria</label>
-            <select id="kind" name="kind">
-              <option>Wstępna konsultacja</option><option>Prawo rodzinne</option><option>Prawo karne</option>
-              <option>Prawo cywilne</option><option>Spadki</option><option>Inna sprawa</option>
             </select></div>
           <div class="field"><label for="day">Data</label><input type="date" id="day" name="day" required></div>
           <div class="field"><label for="time">Dostępna godzina</label><select id="time" name="time" required><option value="">Sprawdzanie dostępności…</option></select></div>
           <div class="field"><label for="name">Imię i nazwisko</label><input id="name" name="name" autocomplete="name" minlength="3" maxlength="100" required></div>
           <div class="field"><label for="email">Adres e-mail</label><input id="email" name="email" type="email" autocomplete="email" maxlength="180" required></div>
+          <div class="field wide"><button type="button" id="verify">Wyślij kod na e-mail</button><label for="code">Kod potwierdzający e-mail</label><input id="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required></div>
           <div class="field wide"><label for="phone">Telefon</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="30" required></div>
         </div>
         <div class="hp" aria-hidden="true"><label for="website">Witryna internetowa (zostaw puste)</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
@@ -95,7 +90,17 @@
       .formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));
     return p.year+'-'+p.month+'-'+p.day;
   };
-  let enabled=false,sequence=0;
+  let enabled=false,sequence=0,verificationId='',submitting=false;
+  $('email').addEventListener('input',function(){verificationId='';$('code').value='';});
+  $('verify').addEventListener('click',function(){
+    if(!enabled||!$('email').reportValidity())return;
+    const email=$('email').value;
+    $('verify').disabled=true;
+    google.script.run.withSuccessHandler(function(r){
+      if($('email').value===email){verificationId=r.verificationId;message('Kod wysłany. Sprawdź skrzynkę i wpisz go poniżej.',false);}
+      $('verify').disabled=false;
+    }).withFailureHandler(function(e){$('verify').disabled=false;message(e.message||'Błąd wysyłki kodu',true);}).requestVerification({email:email,website:$('website').value});
+  });
   $('day').min=today();$('day').value=today();
 
   function message(text,error){
@@ -137,6 +142,7 @@
       return;
     }
     enabled=true;
+    if(result.testMode) $('form-title').textContent='Test rezerwacji — tylko właściciel';
     $('info').textContent='System sprawdza kalendarz na żywo. Nie podawaj poufnych danych o sprawie.';
     $('send').textContent='Zarezerwuj konsultację';
     loadSlots();
@@ -147,18 +153,22 @@
 
   $('booking').addEventListener('submit',function(ev){
     ev.preventDefault();
-    if(!enabled||!$('time').value)return;
+    if(submitting||!enabled||!$('time').value)return;
+    if(!verificationId){message('Najpierw potwierdź e-mail kodem.',true);return;}
     if(!$('booking').reportValidity())return;
     $('send').disabled=true;
+    submitting=true;
     $('send').textContent='Zapisywanie rezerwacji…';
     $('status').textContent='';
     const body={
-      office:$('office').value,kind:$('kind').value,day:$('day').value,
+      office:$('office').value,day:$('day').value,verificationId:verificationId,verificationCode:$('code').value,
       time:$('time').value,name:$('name').value,email:$('email').value,
       phone:$('phone').value,website:$('website').value,privacyAccepted:$('privacy').checked
     };
     google.script.run.withSuccessHandler(function(result){
+      submitting=false;
       if(result.ok){
+        verificationId='';$('code').value='';
         message('Rezerwacja przyjęta: '+result.when+' ('+result.office+'). '+
           (result.mailSent?'Potwierdzenie wysłano na e-mail.':'Wydarzenie zapisano, ale wiadomość e-mail nie została wysłana. Zadzwoń do kancelarii.'),false);
         $('name').value='';$('email').value='';$('phone').value='';$('privacy').checked=false;
@@ -166,6 +176,7 @@
       $('send').textContent='Zarezerwuj konsultację';
       loadSlots();
     }).withFailureHandler(function(err){
+      submitting=false;
       message(err.message||'Nie udało się zapisać rezerwacji. Spróbuj ponownie.',true);
       $('send').textContent='Zarezerwuj konsultację';
       loadSlots();
