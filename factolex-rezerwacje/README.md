@@ -1,48 +1,33 @@
-# Factolex — aplikacja rezerwacji z Google Calendar i Gmail
+# Factolex – rezerwacja konsultacji prawnych z Google
 
-## Status (2026-11-05)
-Kod aplikacji i integracji gotowy do przeniesienia do **Google Apps Script**. Właściciel konta musi utworzyć projekt Google, autoryzować wymagane uprawnienia i wdrożyć aplikację. **Autoryzacja NIE została przeprowadzona i aplikacja NIE przyjmuje obecnie rezerwacji.**
-
-Konto docelowe: `marchewkadominik@gmail.com`; domena kancelarii: `https://www.factolex.pl/`.
+Repozytorium zawiera aplikację Google Apps Script przygotowaną do połączenia z **Kalendarzem Google** i wysyłką potwierdzeń przez **MailApp** (adres nadawcy: konto Google, które autoryzuje aplikację). Nie udziela dostępu do czytania wiadomości Gmail.
 
 ## Pliki
-- `Code.gs` – serwer: CalendarApp, MailApp (Gmail – tylko wysyłka), blokada równoczesnych rezerwacji, walidacja danych i limity.
-- `Index.html` – rzeczywisty formularz przeznaczony do **Google Apps Script HTML Service**, korzysta z `google.script.run` (bez zewnętrznego CORS i publicznych kluczy).
-- `appsscript.json` – strefa czasowa i zakresy OAuth: zarządzanie kalendarzem oraz wysyłka wiadomości.
-- `index.html` – wcześniejszy, samodzielny prototyp statyczny; **nie jest połączony z działającym serwerem**.
-- `google-apps-script.gs` – wcześniejsza wersja demonstracyjna; **nie używać do uruchamiania**.
 
-## Uruchomienie / autoryzacja właściciela konta Google
+- [Code.gs](Code.gs) – funkcje serwerowe, sprawdzenie wolnego terminu, blokada konfliktów, zapis wydarzenia i wysyłka potwierdzenia.
+- [Index.html](Index.html) – formularz klienta, dynamiczne wyświetlanie wolnych terminów z Google Calendar.
+- [appsscript.json](appsscript.json) – strefa `Europe/Warsaw`, minimalne zakresy OAuth do kalendarza i wysyłania poczty.
+- [index.html](index.html) – podgląd statyczny (bez wdrożenia Apps Script rezerwacje nie będą działały).
 
-1. Zaloguj się do `marchewkadominik@gmail.com`, otwórz https://script.google.com/home/projects/create i utwórz projekt o nazwie `Factolex Rezerwacje`.
-2. Zastąp zawartość domyślnego `Code.gs` zawartością pliku **`Code.gs`** z tego folderu GitHub.
-3. Kliknij przycisk **+ → HTML** w edytorze Apps Script, nazwij plik **`Index`** (aby powstał `Index.html`) i wklej jego zawartość z GitHub.
-4. W **Ustawieniach projektu** zaznacz **Pokaż plik manifestu appsscript.json w edytorze**. Zastąp manifest zawartością `appsscript.json` z tego folderu. Na początku wdrażaj dostęp **tylko dla siebie**.
-5. Z menu funkcji wybierz **`authorizeOnce`** i kliknij **Uruchom**. Google poprosi o wybór konta i zgodę na uprawnienia: kalendarz oraz wysyłkę e-mail. Przejrzyj dokładnie uprawnienia i zatwierdź je tylko dla własnego, zaufanego projektu. Nie podawaj haseł ani kodów logowania w ChatGPT.
-6. Kliknij **Wdróż → Nowe wdrożenie → Aplikacja internetowa**, ustaw **Wykonuj jako: Ja**, **Kto ma dostęp: Tylko ja** i wdroż. Google wyświetli adres `https://script.google.com/macros/s/.../exec`. Otwórz go, aby sprawdzić widok. Rezerwacje pozostają wyłączone z założenia.
-7. Po weryfikacji godzin, polityki prywatności, ochrony formularza przed nadużyciami oraz przeprowadzeniu kontrolnej rezerwacji można włączyć usługę: **Ustawienia projektu → Właściwości skryptu → Dodaj właściwość**: nazwa `BOOKINGS_ENABLED`, wartość `true`. Do testów można użyć dostępu tylko dla siebie. Publiczną dostępność ustaw dopiero po zapewnieniu ochrony antyspamowej, limitów i RODO. W razie nadużyć ustaw `BOOKINGS_ENABLED=false` natychmiast.
-8. Jeżeli zatwierdzisz publiczne uruchomienie, w **Zarządzaj wdrożeniami** dostosuj dostęp aplikacji do docelowych klientów (anonimowo lub z kontem Google, zależnie od polityki bezpieczeństwa). Link wdrożenia umieść na stronie `factolex.pl` i zweryfikuj działanie jako klient.
+## Uruchomienie i osobna autoryzacja Google
 
-## Działanie
+Połączenie Gmaila/Kalendarza w ChatGPT **nie jest autoryzacją tej aplikacji**. Tę zgodę musi wykonać właściciel konta Google.
 
-- Aplikacja sprawdza zajętość w **głównym Kalendarzu Google** właściciela; nie pokazuje klientom tytułów istniejących wydarzeń.
-- Zapobiega podwójnym zapisom, wykorzystując blokadę skryptu, oraz wymaga co najmniej 12 godzin wyprzedzenia.
-- Po przyjęciu rezerwacji tworzy wydarzenie prywatne w kalendarzu i wysyła potwierdzenie do klienta oraz informację do kancelarii za pośrednictwem `MailApp`.
-- Gdy wiadomość e-mail nie zostanie wysłana, wydarzenie pozostaje w kalendarzu, a aplikacja zwróci ostrzeżenie.
-- System **nie czyta przychodzącej poczty Gmail** i nie synchronizuje konwersacji. Integracja Gmail obejmuje tylko wysyłanie e-maili.
-- W formularzu nie ma pola na opis sprawy. Dane kontaktowe są zapisywane w opisie wydarzenia kalendarza właściciela.
-- Na starcie połączenie **nie jest aktywne**. Zgodą w ChatGPT nie można zastąpić OAuth udzielonego z poziomu Google Apps Script.
+1. Zaloguj się do https://script.google.com/ jako **marchewkadominik@gmail.com** i utwórz nowy projekt `Factolex – rezerwacje`.
+2. Otwórz `Code.gs` w projekcie Apps Script, usuń treść domyślną i wklej całą zawartość pliku [Code.gs](Code.gs).
+3. W edytorze dodaj plik **HTML** o nazwie `Index` (bez rozszerzenia w polu nazwy; Google utworzy `Index.html`) i wklej zawartość [Index.html](Index.html).
+4. W **Ustawienia projektu** włącz „Pokaż plik manifestu appsscript.json w edytorze”, a następnie zastąp jego zawartość kodem [appsscript.json](appsscript.json). Strefa czasowa musi być ustawiona na **Europe/Warsaw**.
+5. Zapisz projekt. Z menu funkcji wybierz `authorizeOnce` → **Uruchom**. Zatwierdź zgodę Google na **Kalendarz Google** i **wysyłanie wiadomości e-mail**. Nie przesyłaj nikomu kodów, tokenów ani haseł. Uwaga: ta aplikacja nie potrzebuje uprawnień odczytu treści Gmaila.
+6. Testuj początkowo tylko na koncie właściciela. W **Wdróż → Nowe wdrożenie → Aplikacja internetowa** ustaw **Wykonuj jako: Ja** i początkowo **Dostęp: Tylko ja**. Otwórz testowy adres.
+7. Domyślnie `BOOKINGS_ENABLED` jest wyłączone. Gdy polityka prywatności, ochrona przed spamem, harmonogram i adresy zostaną zatwierdzone, w **Ustawienia projektu → Właściwości skryptu** dodaj `BOOKINGS_ENABLED` z wartością `true`. Przetestuj rezerwację i anulowanie, blokadę kolizji oraz wysłanie wiadomości.
+8. Dopiero po audycie zabezpieczeń wdroż wersję dostępną dla klientów, z ustawieniem „Wykonuj jako: Ja”. Skopiuj link kończący się na `/exec` i opublikuj go na stronie kancelarii `factolex.pl`.
 
-## Bezpieczeństwo i uwagi wdrożeniowe
+## Ważne zabezpieczenia
 
-**Nie publikuj niezabezpieczonego formularza dla wszystkich użytkowników.** Obecne zabezpieczenia (honeypot, limit 20 rezerwacji dziennie, blokada 6-godzinna na adres e-mail i blokada równoległych żądań) ograniczają nadużycia, lecz nie zastępują weryfikacji CAPTCHA/Turnstile po stronie serwera, filtrów IP i nadzoru nad rezerwacjami. Publiczne wdrożenie wymaga dodatkowego zabezpieczenia.
+**Publiczne udostępnienie bez dodatkowego ograniczania botów nie jest zalecane.** Załączony kod ma walidację, honeypot, ograniczenia liczby zgłoszeń, blokadę jednoczesnych zapisów i 6-godzinny limit na ten sam e-mail, ale te zabezpieczenia **nie zastępują** pełnej ochrony CAPTCHA / Turnstile, bardziej zaawansowanych limitów ruchu oraz monitoringu nadużyć. Nie włączaj publicznego formularza przed ich wdrożeniem.
 
-MailApp wymaga zakresu `script.send_mail`; CalendarApp wymaga zakresu `calendar`. To znaczące uprawnienia: aplikacja działa jako właściciel, dlatego kod musi być przeglądany przed autoryzacją. Do aplikacji nie należy dodawać odczytu treści wiadomości z Gmaila ani ujawniać tokenów OAuth, haseł, danych klientów czy tajemnicy adwokackiej w publicznym repozytorium. Zalecana jest oddzielna baza rezerwacji i zewnętrzna bramka antyspamowa, jeśli system będzie intensywnie używany.
+W kalendarzu zapisane zostają dane kontaktowe klienta. Ustal ich retencję i podstawę prawną przetwarzania oraz zweryfikuj komunikat informacyjny RODO. Formularz **nie zbiera opisów spraw ani materiałów poufnych**. Wydarzenia są oznaczane jako prywatne; sprawdź ponadto ustawienia udostępniania kalendarza.
 
-Przed włączeniem produkcji sprawdź harmonogram kancelarii, sposób informowania osób rezerwujących o ochronie danych osobowych, politykę retencji i kontrolę dostępu do kalendarza. Podane godziny i miejsca to ustawienia robocze wymagające zaakceptowania przez właściciela.
+**Status:** kod aplikacji przygotowany i zapisany na GitHubie. Projekt Apps Script nie został utworzony, autoryzowany ani wdrożony na koncie Google w ramach tego połączenia. Nie ma jeszcze produkcyjnego URL `/exec`.
 
-## Gdzie są linki?
-
-- [Kod projektu w GitHub](https://github.com/domlex/moja-strona/tree/main/factolex-rezerwacje)
-- [Nowy projekt Google Apps Script](https://script.google.com/home/projects/create)
-- Po wdrożeniu przez właściciela aplikacja będzie miała własny URL, który Google pokaże w panelu wdrożenia.
+> Zamiast pełnego Gmail API zastosowano MailApp z uprawnieniem tylko do wysyłania wiadomości (zasada minimalnych uprawnień).
