@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Factolex — rezerwacja konsultacji</title>
+  <style>
+    :root{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f7fa;color:#172b43}
+    *{box-sizing:border-box}
+    body{margin:0}a{color:#1b578d}header{background:#10263e;color:#fff;padding:21px max(4vw,22px)}
+    .head{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .brand{font-weight:800;letter-spacing:.14em;font-size:24px}.head a{color:#eff7ff;text-decoration:none;font-size:14px}
+    main{max-width:1100px;margin:43px auto 50px;padding:0 20px}.eyebrow{text-transform:uppercase;font-size:12px;letter-spacing:.15em;font-weight:700;color:#326696;margin:0 0 10px}
+    h1{font-size:clamp(29px,4vw,47px);margin:0 0 13px;line-height:1.13;max-width:760px}
+    .intro{line-height:1.6;color:#52677d;margin:0 0 29px;max-width:780px}
+    .layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(260px,.8fr);gap:23px}
+    .card{background:white;border-radius:16px;border:1px solid #e2e8ee;box-shadow:0 8px 28px rgba(10,32,56,.055);padding:30px}
+    h2{margin:0 0 21px;font-size:21px}h3{margin:23px 0 7px;font-size:15px}
+    p{line-height:1.55}.muted{color:#577087}aside p{color:#52677d;margin:0 0 15px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+    .field{min-width:0}label{display:block;font-size:13px;font-weight:700;margin:0 0 8px}
+    input,select{width:100%;padding:12px 13px;border-radius:9px;border:1px solid #c5d2df;background:#fff;color:#172b43;font:inherit}
+    input:focus,select:focus{outline:2px solid #9cbedf;border-color:#3b77ae}
+    .wide{grid-column:1/-1}.privacy{display:flex;align-items:flex-start;gap:10px;margin:18px 0;line-height:1.45;font-size:13px}
+    .privacy input{width:auto;margin:3px 0 0;flex:none}.privacy label{font-size:13px;font-weight:400;margin:0}
+    .info{font-size:13px;padding:13px 15px;background:#eef5fb;color:#2d587e;border-radius:9px;line-height:1.5;margin:18px 0}
+    .status{min-height:22px;margin-top:12px;font-size:14px}.error{color:#a72d37}.success{color:#17683e}
+    button{border:0;border-radius:9px;background:#174c7b;color:#fff;font:inherit;font-weight:750;padding:15px 20px;cursor:pointer;width:100%}
+    button:disabled{background:#8095a9;cursor:not-allowed}
+    .hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;overflow:hidden}
+    footer{max-width:1100px;margin:auto;padding:20px 20px 34px;text-align:center;color:#6d8093;font-size:13px}
+    @media(max-width:760px){.layout,.grid{grid-template-columns:1fr}.wide{grid-column:1}.card{padding:21px}main{margin-top:29px}}
+  </style>
+</head>
+<body>
+<header><div class="head"><div class="brand">FACTOLEX</div><a href="https://www.factolex.pl/" rel="noopener noreferrer" target="_blank">Strona kancelarii ↗</a></div></header>
+<main>
+  <p class="eyebrow">Kancelaria Adwokacka</p>
+  <h1>Umów konsultację prawną</h1>
+  <p class="intro">Wybierz miejsce i dogodną godzinę spotkania z adwokatem. System sprawdza wolne terminy w Kalendarzu Google kancelarii. W formularzu nie wpisuj poufnych informacji o sprawie.</p>
+  <div class="layout">
+    <section class="card" aria-labelledby="form-title">
+      <h2 id="form-title">Rezerwacja terminu</h2>
+      <form id="booking">
+        <div class="grid">
+          <div class="field"><label for="office">Miejsce konsultacji</label>
+            <select id="office" name="office" required>
+              <option value="Kraków">Kraków</option>
+              <option value="Olkusz">Olkusz</option>
+              <option value="Telefonicznie">Telefonicznie</option>
+            </select></div>
+          <div class="field"><label for="kind">Kategoria</label>
+            <select id="kind" name="kind">
+              <option>Wstępna konsultacja</option><option>Prawo rodzinne</option><option>Prawo karne</option>
+              <option>Prawo cywilne</option><option>Spadki</option><option>Inna sprawa</option>
+            </select></div>
+          <div class="field"><label for="day">Data</label><input type="date" id="day" name="day" required></div>
+          <div class="field"><label for="time">Dostępna godzina</label><select id="time" name="time" required><option value="">Sprawdzanie dostępności…</option></select></div>
+          <div class="field"><label for="name">Imię i nazwisko</label><input id="name" name="name" autocomplete="name" minlength="3" maxlength="100" required></div>
+          <div class="field"><label for="email">Adres e-mail</label><input id="email" name="email" type="email" autocomplete="email" maxlength="180" required></div>
+          <div class="field wide"><label for="phone">Telefon</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="30" required></div>
+        </div>
+        <div class="hp" aria-hidden="true"><label for="website">Witryna internetowa (zostaw puste)</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+        <div class="privacy">
+          <input type="checkbox" id="privacy" name="privacy" required>
+          <label for="privacy">Potwierdzam zapoznanie się z informacjami dotyczącymi przetwarzania danych osobowych udostępnionymi przez kancelarię. Dane podaję w celu obsługi rezerwacji i kontaktu.</label>
+        </div>
+        <div class="info" id="info">Łączenie z Kalendarzem Google. Przed wysłaniem formularza wymagane jest zatwierdzenie terminów przez właściciela kancelarii.</div>
+        <button id="send" type="submit" disabled>Sprawdzanie integracji…</button>
+        <p class="status" id="status" aria-live="polite"></p>
+      </form>
+    </section>
+    <aside class="card">
+      <h2>Kancelaria Adwokacka Factolex</h2>
+      <h3>Adwokat Dominik Marchewka</h3>
+      <p>Konsultacje prawne dla osób fizycznych i przedsiębiorców.</p>
+      <h3>Kontakt</h3>
+      <p><a href="tel:+48530834077">530 834 077</a></p>
+      <h3>Kraków</h3><p>Poniedziałek i piątek, 15:00–20:00</p>
+      <h3>Olkusz</h3><p>Czwartek, 14:00–17:00<br>Sobota, 10:00–13:00</p>
+      <p class="muted">Spotkanie jest ważne po przyjęciu rezerwacji przez system. Jeśli poczta nie wyśle potwierdzenia, kontaktuj się z kancelarią telefonicznie.</p>
+      <p><a href="https://www.factolex.pl/" target="_blank" rel="noopener noreferrer">www.factolex.pl</a></p>
+    </aside>
+  </div>
+</main>
+<footer>© Factolex · Rezerwacja konsultacji prawnych</footer>
+<script>
+(function(){
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const pad = x => String(x).padStart(2,'0');
+  const today = () => {const n=new Date();return n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate())};
+  let enabled=false,sequence=0;
+  $('day').min=today();$('day').value=today();
+
+  function message(text,error){
+    $('status').textContent=text;
+    $('status').className='status '+(error?'error':'success');
+  }
+  function disable(reason){
+    enabled=false;$('send').disabled=true;$('send').textContent='Rezerwacje jeszcze nieaktywne';
+    $('info').textContent=reason;
+    $('time').replaceChildren(new Option('Rezerwacja niedostępna',''));
+  }
+  function loadSlots(){
+    const current=++sequence;
+    const office=$('office').value,day=$('day').value;
+    $('send').disabled=true;
+    $('time').replaceChildren(new Option('Sprawdzanie terminów…',''));
+    if(!enabled||!day)return;
+    google.script.run.withSuccessHandler(function(result){
+      if(current!==sequence)return;
+      $('time').replaceChildren();
+      if(!result.enabled){disable('Właściciel jeszcze nie włączył przyjmowania rezerwacji. Skontaktuj się telefonicznie.');return}
+      if(!result.slots.length){
+        $('time').add(new Option('Brak wolnych godzin – zmień datę',''));
+        $('send').disabled=true;return;
+      }
+      result.slots.forEach(x => $('time').add(new Option(x.label,x.value)));
+      $('send').disabled=false;
+    }).withFailureHandler(function(err){
+      if(current!==sequence)return;
+      $('time').replaceChildren(new Option('Nie można pobrać dostępności',''));
+      message(err.message||'Błąd połączenia z kalendarzem',true);
+    }).getAvailability({office:office,day:day});
+  }
+  $('office').addEventListener('change',loadSlots);
+  $('day').addEventListener('change',loadSlots);
+  google.script.run.withSuccessHandler(function(result){
+    if(!result.enabled){
+      disable('Rezerwacje online są obecnie wyłączone do czasu zakończenia konfiguracji Google. Można kontaktować się telefonicznie.');
+      return;
+    }
+    enabled=true;
+    $('info').textContent='System sprawdza kalendarz na żywo. Nie podawaj poufnych danych o sprawie.';
+    $('send').textContent='Zarezerwuj konsultację';
+    loadSlots();
+  }).withFailureHandler(function(err){
+    disable('Nie udało się nawiązać połączenia z Google. Skontaktuj się z kancelarią.');
+    message(err.message||'Błąd integracji',true);
+  }).publicStatus();
+
+  $('booking').addEventListener('submit',function(ev){
+    ev.preventDefault();
+    if(!enabled||!$('time').value)return;
+    if(!$('booking').reportValidity())return;
+    $('send').disabled=true;
+    $('send').textContent='Zapisywanie rezerwacji…';
+    $('status').textContent='';
+    const body={
+      office:$('office').value,kind:$('kind').value,day:$('day').value,
+      time:$('time').value,name:$('name').value,email:$('email').value,
+      phone:$('phone').value,website:$('website').value,privacyAccepted:$('privacy').checked
+    };
+    google.script.run.withSuccessHandler(function(result){
+      if(result.ok){
+        message('Rezerwacja przyjęta: '+result.when+' ('+result.office+'). '+
+          (result.mailSent?'Potwierdzenie wysłano na e-mail.':'Wydarzenie zapisano, ale wiadomość e-mail nie została wysłana. Zadzwoń do kancelarii.'),false);
+        $('name').value='';$('email').value='';$('phone').value='';$('privacy').checked=false;
+      }else message('Rezerwacja nie została przyjęta.',true);
+      $('send').textContent='Zarezerwuj konsultację';
+      loadSlots();
+    }).withFailureHandler(function(err){
+      message(err.message||'Nie udało się zapisać rezerwacji. Spróbuj ponownie.',true);
+      $('send').textContent='Zarezerwuj konsultację';
+      loadSlots();
+    }).submitBooking(body);
+  });
+})();
+</script>
+</body></html>
