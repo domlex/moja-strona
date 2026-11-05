@@ -27,10 +27,10 @@ footer{padding:36px 20px;text-align:center;color:#67778a;font-size:13px}
 <div class="group"><label for="name">Imię i nazwisko</label><input id="name" name="name" autocomplete="name" required minlength="3" maxlength="120"></div>
 <div class="group"><label for="email">Adres e-mail</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="180"></div>
 <div class="group"><label for="phone">Telefon</label><input id="phone" name="phone" type="tel" autocomplete="tel" required maxlength="30"></div>
-</div><div class="group"><label for="note">Informacja organizacyjna (opcjonalnie)</label><textarea id="note" name="note" rows="3" maxlength="300" placeholder="Bez danych wrażliwych i poufnych informacji o sprawie"></textarea></div>
-<label style="font-weight:400;display:flex;gap:10px;align-items:flex-start"><input type="checkbox" id="consent" required style="width:auto;margin-top:5px"><span>Wyrażam zgodę na kontakt w celu obsługi zgłoszenia. Zapoznałem/am się z informacjami o przetwarzaniu danych na stronie kancelarii.</span></label>
-<div class="notice">Termin jest potwierdzony dopiero po odpowiedzi systemu rezerwacyjnego. Dostępność terminów zostanie zweryfikowana w Kalendarzu Google po podłączeniu integracji.</div>
-<button type="submit" id="submit">Wyślij prośbę o rezerwację</button><div role="status" aria-live="polite" id="status"></div>
+</div>
+<label style="font-weight:400;display:flex;gap:10px;align-items:flex-start"><input type="checkbox" id="consent" required style="width:auto;margin-top:5px"><span>Potwierdzam zapoznanie się z informacją o przetwarzaniu danych osobowych dostępną na stronie <a href="https://www.factolex.pl/" target="_blank" rel="noopener noreferrer">kancelarii</a>.</span></label><input type="text" name="website" id="website" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+<div class="notice" id="notice">Weryfikuję konfigurację rezerwacji. Godziny są sprawdzane w Kalendarzu Google.</div>
+<button type="submit" id="submit" disabled>Potwierdź rezerwację</button><div role="status" aria-live="polite" id="status"></div>
 </form></section><aside class="panel"><h2>Kancelaria Adwokacka Factolex</h2><strong>Adwokat Dominik Marchewka</strong><p>Indywidualne konsultacje w sprawach rodzinnych, karnych i cywilnych.</p>
 <strong>Kontakt</strong><p><a href="tel:+48530834077">530 834 077</a><br><a href="mailto:marchewkadominik@gmail.com">marchewkadominik@gmail.com</a></p>
 <strong>Kraków</strong><p>ul. Mariana Słoneckiego 4/24<br>Poniedziałek i piątek, 15:00–20:00</p>
@@ -39,23 +39,91 @@ footer{padding:36px 20px;text-align:center;color:#67778a;font-size:13px}
 <footer>© Factolex • Rezerwacje konsultacji • <a href="https://www.factolex.pl/">factolex.pl</a></footer>
 <script>
 "use strict";
-const CONFIG={apiUrl:""}; // Wklej URL wdrożonej aplikacji Google Apps Script (Web App).
-const el=id=>document.getElementById(id),pad=x=>String(x).padStart(2,"0");
-const localToday=()=>{let d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())};
-el("day").min=localToday();el("day").value=localToday();
-function buildSlots(){const office=el("office").value,day=el("day").value;if(!day)return;const wd=new Date(day+"T12:00:00").getDay();let h=[];
-if(office==="Kraków" && [1,5].includes(wd))h=[15,16,17,18,19];
-if(office==="Olkusz" && wd===4)h=[14,15,16];
-if(office==="Olkusz" && wd===6)h=[10,11,12];
-if(office==="Telefonicznie" && [1,2,3,4,5].includes(wd))h=[10,11,12,13,14,15,16];
-el("slot").innerHTML=h.length?h.map(x=>'<option value="'+pad(x)+':00">'+pad(x)+':00 – '+pad(x+1)+':00</option>').join(""):'<option value="">Brak proponowanych godzin – wybierz inny dzień</option>';
+const el = id => document.getElementById(id);
+const pad = n => String(n).padStart(2, "0");
+const app = { enabled:false, loading:false, latest:0 };
+const warsawDay = () => {
+  const fmt=new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Warsaw",year:"numeric",month:"2-digit",day:"2-digit"});
+  const parts=Object.fromEntries(fmt.formatToParts(new Date()).filter(x=>x.type!=="literal").map(x=>[x.type,x.value]));
+  return parts.year+"-"+parts.month+"-"+parts.day;
+};
+function notify(message,isError=false){
+  el("status").textContent=message;
+  el("status").className=isError?"error":"success";
 }
-el("office").addEventListener("change",buildSlots);el("day").addEventListener("change",buildSlots);buildSlots();
-el("booking").addEventListener("submit",async e=>{e.preventDefault();const status=el("status");status.className="";status.textContent="";
-if(!CONFIG.apiUrl){status.className="error";status.textContent="Rezerwacja online nie jest jeszcze aktywna. Zadzwoń do kancelarii: 530 834 077.";return}
-if(!el("consent").checked)return;
-const data=Object.fromEntries(new FormData(e.target).entries());data.time=data.slot;delete data.slot;data.timezone="Europe/Warsaw";const button=el("submit");button.disabled=true;
-try{const r=await fetch(CONFIG.apiUrl,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});const out=await r.json();if(out.ok){status.className="success";status.textContent="Zarezerwowano termin. Potwierdzenie zostało wysłane e-mailem.";e.target.reset();el("day").value=localToday();buildSlots()}else throw new Error(out.error||"Termin niedostępny")}
-catch(err){status.className="error";status.textContent="Nie udało się potwierdzić terminu: "+err.message+"; skontaktuj się telefonicznie."}finally{button.disabled=false}
+function updateButton(){el("submit").disabled=!app.enabled || app.loading || !el("slot").value;}
+function refreshSlots(){
+  const request=++app.latest;
+  const office=el("office").value;
+  const day=el("day").value;
+  el("slot").replaceChildren(new Option("Sprawdzanie dostępności...",""));
+  updateButton();
+  if(!app.enabled){
+    el("slot").replaceChildren(new Option("Rezerwacja online nie jest jeszcze aktywna",""));
+    updateButton();
+    return;
+  }
+  google.script.run.withSuccessHandler(result=>{
+    if(request!==app.latest)return;
+    el("slot").replaceChildren();
+    if(result.slots && result.slots.length){
+      for(const slot of result.slots)el("slot").add(new Option(slot.label,slot.value));
+    }else el("slot").add(new Option("Brak dostępnych terminów na ten dzień",""));
+    updateButton();
+  }).withFailureHandler(error=>{
+    if(request!==app.latest)return;
+    el("slot").replaceChildren(new Option("Nie można sprawdzić kalendarza",""));
+    notify("Nie udało się sprawdzić dostępności: "+String(error?.message||error),true);
+    updateButton();
+  }).getAvailability({office,day});
+}
+el("office").addEventListener("change",refreshSlots);
+el("day").addEventListener("change",refreshSlots);
+el("day").min=warsawDay();
+el("day").value=warsawDay();
+function start(){
+  if(!(window.google && google.script && google.script.run)){
+    el("notice").textContent="To podgląd kodu. Rezerwacja działa tylko po wdrożeniu aplikacji Google Apps Script.";
+    el("slot").replaceChildren(new Option("Uruchom aplikację przez Google Apps Script",""));
+    return;
+  }
+  google.script.run.withSuccessHandler(status=>{
+    app.enabled=Boolean(status?.enabled);
+    el("notice").textContent=app.enabled
+      ?"Wybierz termin. Dostępność jest sprawdzana w kalendarzu kancelarii. Rezerwacja zostanie potwierdzona po zapisaniu wizyty."
+      :"Rezerwacje online pozostają wyłączone do czasu autoryzacji, konfiguracji zabezpieczeń i zatwierdzenia uruchomienia.";
+    refreshSlots();
+  }).withFailureHandler(error=>{
+    el("notice").textContent="Błąd połączenia z Kalendarzem Google.";
+    notify(String(error?.message||error),true);
+  }).publicStatus();
+}
+el("booking").addEventListener("submit",event=>{
+  event.preventDefault();
+  if(!app.enabled || app.loading || !el("slot").value)return;
+  const form=el("booking");
+  if(!form.reportValidity())return;
+  const fields=Object.fromEntries(new FormData(form).entries());
+  const input={
+    office:fields.office,kind:fields.type,day:fields.day,time:fields.slot,
+    name:fields.name,email:fields.email,phone:fields.phone,
+    website:fields.website||"",privacyAccepted:el("consent").checked
+  };
+  app.loading=true;updateButton();
+  el("status").textContent="Trwa zapisywanie wizyty…";el("status").className="";
+  google.script.run.withSuccessHandler(result=>{
+    app.loading=false;
+    if(result?.ok){
+      notify("Termin "+result.when+" ("+result.office+") został zapisany. "+
+        (result.mailSent?"Potwierdzenie wysłaliśmy e-mailem.":"Wysyłka e-maila nie powiodła się; skontaktuj się z kancelarią telefonicznie."));
+      form.reset();el("day").value=warsawDay();refreshSlots();
+    } else {notify("Nie udało się zarezerwować terminu.",true);refreshSlots();}
+    updateButton();
+  }).withFailureHandler(error=>{
+    app.loading=false;
+    notify("Nie udało się potwierdzić terminu: "+String(error?.message||error),true);
+    refreshSlots();updateButton();
+  }).submitBooking(input);
 });
+start();
 </script></body></html>
