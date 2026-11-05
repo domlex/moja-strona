@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factolex | Umów konsultację</title><meta name="description" content="Kancelaria Adwokacka Factolex – rezerwacja konsultacji prawnych.">
+<style>
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#17263a;background:#f4f6f9}*{box-sizing:border-box}
+body{margin:0}header{background:#10253c;color:white;padding:20px max(6vw,20px);display:flex;align-items:center;justify-content:space-between}header b{font-size:24px;letter-spacing:2px}header a{color:#d8e7f8;text-decoration:none}
+main{max-width:1110px;margin:38px auto;padding:0 20px}h1{font-size:clamp(30px,4vw,48px);line-height:1.13;margin:0 0 14px}p{line-height:1.55;color:#57677a}
+.intro{max-width:700px;margin-bottom:28px}.layout{display:grid;grid-template-columns:1.4fr .8fr;gap:24px}
+.panel{background:white;border:1px solid #e1e7ee;border-radius:18px;padding:30px;box-shadow:0 7px 24px #132f4a0a}
+h2{font-size:21px;margin:0 0 22px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}label{font-weight:650;font-size:14px;display:block;margin-bottom:7px}
+input,select,textarea{width:100%;font:inherit;border:1px solid #ccd5df;border-radius:9px;padding:13px;background:white;color:#17263a}
+input:focus,select:focus,textarea:focus{outline:2px solid #b3d0f1;border-color:#245a91}textarea{resize:vertical}
+.group{margin-bottom:19px}.notice{margin:18px 0;padding:13px 15px;border-radius:10px;background:#eff5fc;color:#2b4d70;font-size:13px;line-height:1.5}
+button{background:#163e69;color:white;border:0;border-radius:9px;padding:15px 20px;font:inherit;font-weight:700;width:100%;cursor:pointer}button:disabled{opacity:.55;cursor:not-allowed}
+#status{min-height:20px;margin-top:13px;font-size:14px}.success{color:#12623e}.error{color:#af3535}
+aside p{margin:10px 0 20px}aside strong{display:block;margin-bottom:7px}aside a{color:#21578b}
+footer{padding:36px 20px;text-align:center;color:#67778a;font-size:13px}
+@media(max-width:760px){.layout,.grid{grid-template-columns:1fr}.panel{padding:20px}header{gap:10px;flex-wrap:wrap}}
+</style></head><body><header><b>FACTOLEX</b><a href="https://www.factolex.pl/">Strona kancelarii ↗</a></header>
+<main><div class="intro"><h1>Umów konsultację prawną</h1><p>Wybierz dogodny termin i miejsce spotkania z adwokatem Dominikiem Marchewką. Zgłoszenie nie wymaga opisywania poufnych szczegółów sprawy.</p></div>
+<div class="layout"><section class="panel"><h2>Rezerwacja terminu</h2>
+<form id="booking"><div class="grid">
+<div class="group"><label for="office">Miejsce spotkania</label><select id="office" name="office" required><option value="Kraków">Kraków – ul. Słoneckiego 4/24</option><option value="Olkusz">Olkusz – ul. K. K. Wielkiego 21</option><option value="Telefonicznie">Konsultacja telefoniczna</option></select></div>
+<div class="group"><label for="type">Rodzaj konsultacji</label><select id="type" name="type"><option>Wstępna konsultacja</option><option>Prawo rodzinne</option><option>Prawo karne</option><option>Prawo cywilne</option><option>Spadki i dziedziczenie</option><option>Inna sprawa</option></select></div>
+<div class="group"><label for="day">Data</label><input type="date" id="day" name="day" required></div>
+<div class="group"><label for="slot">Godzina</label><select id="slot" name="slot" required></select></div>
+<div class="group"><label for="name">Imię i nazwisko</label><input id="name" name="name" autocomplete="name" required minlength="3" maxlength="120"></div>
+<div class="group"><label for="email">Adres e-mail</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="180"></div>
+<div class="group"><label for="phone">Telefon</label><input id="phone" name="phone" type="tel" autocomplete="tel" required maxlength="30"></div>
+</div><div class="group"><label for="note">Informacja organizacyjna (opcjonalnie)</label><textarea id="note" name="note" rows="3" maxlength="300" placeholder="Bez danych wrażliwych i poufnych informacji o sprawie"></textarea></div>
+<label style="font-weight:400;display:flex;gap:10px;align-items:flex-start"><input type="checkbox" id="consent" required style="width:auto;margin-top:5px"><span>Wyrażam zgodę na kontakt w celu obsługi zgłoszenia. Zapoznałem/am się z informacjami o przetwarzaniu danych na stronie kancelarii.</span></label>
+<div class="notice">Termin jest potwierdzony dopiero po odpowiedzi systemu rezerwacyjnego. Dostępność terminów zostanie zweryfikowana w Kalendarzu Google po podłączeniu integracji.</div>
+<button type="submit" id="submit">Wyślij prośbę o rezerwację</button><div role="status" aria-live="polite" id="status"></div>
+</form></section><aside class="panel"><h2>Kancelaria Adwokacka Factolex</h2><strong>Adwokat Dominik Marchewka</strong><p>Indywidualne konsultacje w sprawach rodzinnych, karnych i cywilnych.</p>
+<strong>Kontakt</strong><p><a href="tel:+48530834077">530 834 077</a><br><a href="mailto:marchewkadominik@gmail.com">marchewkadominik@gmail.com</a></p>
+<strong>Kraków</strong><p>ul. Mariana Słoneckiego 4/24<br>Poniedziałek i piątek, 15:00–20:00</p>
+<strong>Olkusz</strong><p>ul. Króla Kazimierza Wielkiego 21<br>Czwartek, 14:00–17:00<br>Sobota, 10:00–13:00</p>
+<p>Godziny w aplikacji są proponowanymi oknami konsultacji i wymagają potwierdzenia w kalendarzu kancelarii.</p></aside></div></main>
+<footer>© Factolex • Rezerwacje konsultacji • <a href="https://www.factolex.pl/">factolex.pl</a></footer>
+<script>
+"use strict";
+const CONFIG={apiUrl:""}; // Wklej URL wdrożonej aplikacji Google Apps Script (Web App).
+const el=id=>document.getElementById(id),pad=x=>String(x).padStart(2,"0");
+const localToday=()=>{let d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())};
+el("day").min=localToday();el("day").value=localToday();
+function buildSlots(){const office=el("office").value,day=el("day").value;if(!day)return;const wd=new Date(day+"T12:00:00").getDay();let h=[];
+if(office==="Kraków" && [1,5].includes(wd))h=[15,16,17,18,19];
+if(office==="Olkusz" && wd===4)h=[14,15,16];
+if(office==="Olkusz" && wd===6)h=[10,11,12];
+if(office==="Telefonicznie" && [1,2,3,4,5].includes(wd))h=[10,11,12,13,14,15,16];
+el("slot").innerHTML=h.length?h.map(x=>'<option value="'+pad(x)+':00">'+pad(x)+':00 – '+pad(x+1)+':00</option>').join(""):'<option value="">Brak proponowanych godzin – wybierz inny dzień</option>';
+}
+el("office").addEventListener("change",buildSlots);el("day").addEventListener("change",buildSlots);buildSlots();
+el("booking").addEventListener("submit",async e=>{e.preventDefault();const status=el("status");status.className="";status.textContent="";
+if(!CONFIG.apiUrl){status.className="error";status.textContent="Rezerwacja online nie jest jeszcze aktywna. Zadzwoń do kancelarii: 530 834 077.";return}
+if(!el("consent").checked)return;
+const data=Object.fromEntries(new FormData(e.target).entries());data.time=data.slot;delete data.slot;data.timezone="Europe/Warsaw";const button=el("submit");button.disabled=true;
+try{const r=await fetch(CONFIG.apiUrl,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});const out=await r.json();if(out.ok){status.className="success";status.textContent="Zarezerwowano termin. Potwierdzenie zostało wysłane e-mailem.";e.target.reset();el("day").value=localToday();buildSlots()}else throw new Error(out.error||"Termin niedostępny")}
+catch(err){status.className="error";status.textContent="Nie udało się potwierdzić terminu: "+err.message+"; skontaktuj się telefonicznie."}finally{button.disabled=false}
+});
+</script></body></html>
