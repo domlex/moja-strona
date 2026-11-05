@@ -90,7 +90,11 @@
   "use strict";
   const $ = id => document.getElementById(id);
   const pad = x => String(x).padStart(2,'0');
-  const today = () => {const n=new Date();return n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate())};
+  const today = () => {
+    const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Warsaw',year:'numeric',month:'2-digit',day:'2-digit'})
+      .formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));
+    return p.year+'-'+p.month+'-'+p.day;
+  };
   let enabled=false,sequence=0;
   $('day').min=today();$('day').value=today();
 
