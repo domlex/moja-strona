@@ -1,3 +1,6 @@
-# Factolex – test środowiska
+# Test wdrożenia Factolex
 
-Integracja Google wymaga osobnej autoryzacji właściciela konta.
+- Oddzielny kalendarz rezerwacji.
+- Autoryzacja wysyłki i kalendarza.
+- Ochrona antyspamowa i test rezerwacji.
+- Potwierdzenia i anulowanie.
